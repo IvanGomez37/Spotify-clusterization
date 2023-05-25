@@ -120,7 +120,7 @@ def concatenate_info(general, pitches, timbre):
 def track_analysis(token, trackID):
     track_analysis = audio_analysis(token, trackID)
 
-    track_data = concatenate_info(creates_general_info(track_analysis), pca(creates_pitches_info(track_analysis), 1), pca(creates_timbre_info(track_analysis), 1))
+    track_data = creates_general_info(track_analysis)
 
     return track_data
 
@@ -151,7 +151,6 @@ for track in tracks :
     
     data_set = pandas.concat([data_set, pandas.DataFrame([aux])], axis = 0)
     
-
     track_information = audio_information(token, track)
     name = track_information["name"]
     band = track_information["artists"][0]["name"]
@@ -159,8 +158,10 @@ for track in tracks :
     new_row = f'{name} - {band}'
     row_names.append(new_row)
 
+print(data_set)
+
 # Replacing NaN values for 0
-data_set = data_set.fillna(0)
+#data_set = data_set.fillna(0)
 
 # Reducing dimensionality to 2 of the whole data set
 final_data_set = pandas.DataFrame(pca(data_set, 2))
@@ -168,7 +169,7 @@ final_data_set = pandas.DataFrame(pca(data_set, 2))
 #final_data_set.index = row_names
 
 # Clustering by Bisecting KMeans method
-trained_data = bisecting_KMeans(final_data_set, 2)
+trained_data = bisecting_KMeans(final_data_set, 3)
 
 # Plotting trained data
 x=[]

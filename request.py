@@ -79,7 +79,7 @@ def audio_information(token, track_id):
 # Returns a list whit general info from a track analysis (duration, loudness, tempo, time_signature, key, mode)
 def creates_general_info(track_analysis):
     track = track_analysis["track"]
-    general = [track["duration"], track["loudness"], track["tempo"], track["time_signature"], track["key"], track["mode"]]
+    general = [track["loudness"], track["tempo"], track["time_signature"], track["key"], track["mode"]]
     
     return general
 
@@ -165,11 +165,12 @@ print(data_set)
 
 # Reducing dimensionality to 2 of the whole data set
 final_data_set = pandas.DataFrame(pca(data_set, 2))
+print(final_data_set)
 
 #final_data_set.index = row_names
 
 # Clustering by Bisecting KMeans method
-trained_data = bisecting_KMeans(final_data_set, 3)
+trained_data = bisecting_KMeans(final_data_set, 10)
 
 # Plotting trained data
 x=[]

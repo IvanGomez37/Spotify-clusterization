@@ -6,6 +6,8 @@ import requests
 import numpy
 from sklearn.decomposition import PCA
 import pandas
+from sklearn.cluster import BisectingKMeans
+import matplotlib.pyplot as plt
 
 # GLOBAL VARIABLES
 client_id = 'ce7fc85dbeaa40588c0a73a324a7654b'
@@ -122,6 +124,11 @@ def track_analysis(token, trackID):
 
     return track_data
 
+def bisecting_KMeans(data_set, cluster_number):
+    bisect_means = BisectingKMeans(n_clusters=cluster_number)
+
+    return bisect_means.fit_transform(data_set)
+
 # MAIN
 # Retrieves a token
 token = get_token()
@@ -152,11 +159,19 @@ for track in tracks :
     new_row = f'{name} - {band}'
     row_names.append(new_row)
 
-# Set song_name - artist_name as row indexes
-data_set.index = row_names
-#De aqui pa bajo
+# Replacing NaN values for 0
 data_set = data_set.fillna(0)
-# PROBLEM: PCA do not allow NaN values. Try to replace NaN values for something else
-final_data_set = pandas.DataFrame(pca(data_set, 5))
 
-print(data_set)
+# Reducing dimensionality to 2 of the whole data set
+final_data_set = pandas.DataFrame(pca(data_set, 2))
+
+#final_data_set.index = row_names
+
+# Clustering by Bisecting KMeans method
+trained_data = bisecting_KMeans(final_data_set, 2)
+
+#print(trained_data)
+
+# Plotting trained data
+plt.scatter(trained_data)
+plt.show()

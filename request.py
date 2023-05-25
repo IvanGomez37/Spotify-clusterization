@@ -154,8 +154,9 @@ for track in tracks :
 
 # Set song_name - artist_name as row indexes
 data_set.index = row_names
-
+#De aqui pa bajo
+data_set = data_set.fillna(0)
 # PROBLEM: PCA do not allow NaN values. Try to replace NaN values for something else
-#final_data_set = pandas.DataFrame(pca(data_set, 5))
+final_data_set = pandas.DataFrame(pca(data_set, 5))
 
 print(data_set)

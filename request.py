@@ -180,6 +180,16 @@ for i in range(len(trained_data)):
     y.append(trained_data[i][1])
 
 plt.plot(x, y,'o', color='black')
+labels = []
+for i in range(len(row_names)):
+    labels.append(row_names[i])
+
+# Create a scatter plot
+plt.scatter(x, y)
+
+# Add labels to each dot
+for i, label in enumerate(labels):
+    plt.annotate(label, (x[i], y[i]), textcoords="offset points", xytext=(0, 10), ha='center')
 
 plt.xlabel('x axis')
 plt.ylabel('y axis')

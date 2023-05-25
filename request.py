@@ -170,8 +170,22 @@ final_data_set = pandas.DataFrame(pca(data_set, 2))
 # Clustering by Bisecting KMeans method
 trained_data = bisecting_KMeans(final_data_set, 2)
 
-#print(trained_data)
+x=[]
+for i in range(len(trained_data)):
+    x.append(trained_data[i][0])
+
+y=[]
+for i in range(len(trained_data)):
+    y.append(trained_data[i][1])
+
+plt.plot(x, y,'o', color='black')
+
+plt.xlabel('x axis')
+plt.ylabel('y axis')
+
+plt.title('Bisecting KMeans Clustering')
+plt.show()
 
 # Plotting trained data
-plt.scatter(trained_data)
-plt.show()
+#plt.scatter(trained_data)
+#plt.show()

@@ -144,19 +144,20 @@ row_names = []
 
 # Iterate over .txt file concatenating each track analysis and name - artist on data_set data frame
 for track in tracks :
-    track = str(track)
-    track = track[:-1]
+    track = str(track) # El id del track lo convierte a string
+    track = track[:-1] # Cada id se compone de la siguiente manera: string + '\n'
+                       # con esta indicación quitamos el '\n' para que la API pueda leer el id.
 
-    aux = track_analysis(token, track)
+    aux = track_analysis(token, track) # Sacamos una lista con los datos de analisis de cada cancion. Ver linea 80
     
-    data_set = pandas.concat([data_set, pandas.DataFrame([aux])], axis = 0)
+    data_set = pandas.concat([data_set, pandas.DataFrame([aux])], axis = 0) # Añadimos el analisis recien obtenido al final del data frame
     
-    track_information = audio_information(token, track)
-    name = track_information["name"]
-    band = track_information["artists"][0]["name"]
+    track_information = audio_information(token, track) # Obtenemos información general de la canción. Ver linea 68
+    name = track_information["name"] # Obtenemos el nombre de la canción
+    band = track_information["artists"][0]["name"] # Obtenemos el nombre del artista
 
-    new_row = f'{name} - {band}'
-    row_names.append(new_row)
+    new_row = f'{name} - {band}' # hacemos una nueva strin name + band
+    row_names.append(new_row) # Añadimos el string a una lista que guarda todos los nombres
 
 print(data_set)
 

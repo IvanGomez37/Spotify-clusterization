@@ -134,7 +134,7 @@ def bisecting_KMeans(data_set, cluster_number):
 token = get_token()
 
 # Opens a .txt file containing track's spotify ID's *each track must end with a newline and the EOF is represented by a blank line* 
-tracks = open('prueba.txt', 'r')
+tracks = open('10Songs.txt', 'r')
 
 # Creates a dataframe to store tracks analysis
 data_set = pandas.DataFrame()
@@ -147,19 +147,20 @@ for track in tracks :
     track = str(track) # El id del track lo convierte a string
     track = track[:-1] # Cada id se compone de la siguiente manera: string + '\n'
                        # con esta indicación quitamos el '\n' para que la API pueda leer el id.
-
-    aux = track_analysis(token, track) # Sacamos una lista con los datos de analisis de cada cancion. Ver linea 80
-    
-    data_set = pandas.concat([data_set, pandas.DataFrame([aux])], axis = 0) # Añadimos el analisis recien obtenido al final del data frame
-    
-    track_information = audio_information(token, track) # Obtenemos información general de la canción. Ver linea 68
-    name = track_information["name"] # Obtenemos el nombre de la canción
-    band = track_information["artists"][0]["name"] # Obtenemos el nombre del artista
-
-    new_row = f'{name} - {band}' # hacemos una nueva strin name + band
-    row_names.append(new_row) # Añadimos el string a una lista que guarda todos los nombres
-
+    try:
+        aux = track_analysis(token, track) # Sacamos una lista con los datos de analisis de cada cancion. Ver linea 80
+        data_set = pandas.concat([data_set, pandas.DataFrame([aux])], axis = 0) # Añadimos el analisis recien obtenido al final del data frame
+        track_information = audio_information(token, track) # Obtenemos información general de la canción. Ver linea 68
+        name = track_information["name"] # Obtenemos el nombre de la canción
+        band = track_information["artists"][0]["name"] # Obtenemos el nombre del artista
+        new_row = f'{name} - {band}' # hacemos una nueva strin name + band
+        row_names.append(new_row) # Añadimos el string a una lista que guarda todos los nombres
+    except:
+        print("Error en el track: " + track)
+        continue
+data_set.insert(0, "Name - Artist", row_names) # Añadimos la lista de nombres al data frame
 print(data_set)
+data_set.to_csv('data_set_SPOTY.csv', index=False)
 
 # Replacing NaN values for 0
 #data_set = data_set.fillna(0)
@@ -171,7 +172,7 @@ print(final_data_set)
 #final_data_set.index = row_names
 
 # Clustering by Bisecting KMeans method
-trained_data = bisecting_KMeans(final_data_set, 10)
+trained_data = bisecting_KMeans(final_data_set, 2)
 
 # Plotting trained data
 x=[]

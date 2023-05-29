@@ -1,9 +1,13 @@
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Set your client ID and client secret obtained from the Spotify Developer Dashboard
-client_id = 'ce7fc85dbeaa40588c0a73a324a7654b'
-client_secret = '8388086841354dd4bada7a48dfe91b72'
+client_id = (os.getenv('CLIENT_ID'))
+client_secret = (os.getenv('CLIENT_SECRET'))
 
 # Set the URI of the playlist you want to retrieve track IDs from
 playlist_uri = 'https://open.spotify.com/playlist/6jLIBc4ja8Jf2DlobQB62D?si=fa5a9b34f7af4d97'
